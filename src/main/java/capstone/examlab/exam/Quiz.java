@@ -20,11 +20,11 @@ public class Quiz {
     private List<String> explanationImageUrls;
     private List<String> explanationImageDescriptions;
     private List<String> tags;
+
     // 롬복이 아닌 기본 생성자 추가
     public Quiz() {
     }
 
-    // 롬복이 자동 생성하지 않는 생성자 추가
     public Quiz(int id, String type, String question, List<String> options, List<String> questionImageUrls, List<String> questionImageDescriptions, List<String> answers, String explanation, List<String> explanationImageUrls, List<String> explanationImageDescriptions, List<String> tags) {
         this.id = id;
         this.type = type;
