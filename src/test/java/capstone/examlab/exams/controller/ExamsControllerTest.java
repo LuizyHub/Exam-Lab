@@ -73,7 +73,7 @@ class ExamsControllerTest {
     void testGetExams() throws Exception {
         when(examsService.getExamList()).thenReturn(getExamListMock());
 
-        mockMvc.perform(get("/exams"))
+        mockMvc.perform(get("/api/v1/exams"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$").isArray())
@@ -107,7 +107,7 @@ class ExamsControllerTest {
         Long examId = 1L;
         when(examsService.getExamType(examId)).thenReturn(getExamTypeMock(examId));
 
-        mockMvc.perform(get("/exams/{examId}/type", examId))
+        mockMvc.perform(get("/api/v1/exams/{examId}/type", examId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.tags").isArray())
@@ -202,7 +202,7 @@ class ExamsControllerTest {
 
         when(examsService.getQuestionsList(questionsOption)).thenReturn(getQuestionsListMock(questionsOption));
 
-        mockMvc.perform(get("/exams/1/questions")
+        mockMvc.perform(get("/api/v1/exams/1/questions")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                         .param("tags", "상황")
                         .param("tags", "표지")

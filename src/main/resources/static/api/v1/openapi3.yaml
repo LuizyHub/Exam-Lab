@@ -1,0 +1,77 @@
+openapi: "3.0.3"
+info:
+  title: "exam_lab API"
+  description: "exam_lab API"
+  version: "1.0.0"
+servers:
+  - url: ""
+paths:
+  /api/v1/:
+    get:
+      summary: "GET api/v1/"
+      operationId: "redirectToIndexHtml"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /api/v1/exams:
+    get:
+      summary: "GET api/v1/exams"
+      operationId: "getExams"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExamList"
+  /api/v1/exams/{id}/type:
+    get:
+      summary: "GET api/v1/exams/{id}/type"
+      operationId: "getExamType"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExamType"
+  /api/v1/exams/{id}/questions:
+    get:
+      summary: "GET api/v1/exams/{id}/questions"
+      operationId: "getExamQuestions"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/QuestionsList"
+components:
+  schemas:
+    ExamList:
+      type: "object"
+      properties: { }
+    ExamType:
+      type: "object"
+      properties: { }
+    QuestionsList:
+      type: "object"
+      properties: { }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/exams")
+@RequestMapping("/api/v1/exams")
 public class ExamsController {
 
     private final ExamsService examsService;

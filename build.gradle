@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'com.epages.restdocs-api-spec' version '0.19.1'
 }
 
 group = 'capstone'
@@ -33,6 +34,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation('com.epages:restdocs-api-spec-mockmvc:0.19.1')
 }
 
 tasks.named('test') {
@@ -43,4 +45,22 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
 	inputs.dir snippetsDir
 	dependsOn test
+}
+
+openapi3 {
+	server = 'http://localhost:8080'
+	title = 'My API'
+	description = 'My API description'
+	version = '0.1.0'
+	format = 'yaml'
+}
+
+
+task copyOasToSwagger(type: Copy) {
+	dependsOn 'openapi3'
+	doFirst {
+		delete 'src/main/resources/static/api/v1/openapi3.yaml'
+	}
+	from 'build/api-spec/openapi3.yaml'
+	into 'src/main/resources/static/api/v1/'
 }
