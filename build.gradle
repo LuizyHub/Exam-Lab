@@ -34,8 +34,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'com.h2database:h2:2.1.214'
-	//implementation 'com.h2database:h2:2.1.214'
+	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

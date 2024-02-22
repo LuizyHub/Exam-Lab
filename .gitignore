@@ -17,6 +17,10 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+### DB Security ###
+src/main/resources/application-secrets.properties
+
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

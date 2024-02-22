@@ -1,4 +1,4 @@
-package capstone.examlab.exam.entity;
+package capstone.examlab.exams.entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +11,8 @@ import java.util.List;
 @Data
 @Document(indexName = "driver-quiz")
 public class Quiz {
-    //json에는 id가 string형임(변환할때 string으로 만듬)
-    //결론: 추후 그 코드 수정하고 다시 json만들기 또는 json id받아올때 int로 변환해주던지
-    //Text vs Keyword:
+    //id 변경 필요 uuid가 되어야함
+    //추가로 몇몇명 변경해야함
     @Id
     private int id;
     @Field(type = FieldType.Keyword)

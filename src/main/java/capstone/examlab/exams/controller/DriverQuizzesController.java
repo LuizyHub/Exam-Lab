@@ -1,8 +1,8 @@
-package capstone.examlab.exam.controller;
+package capstone.examlab.exams.controller;
 
-import capstone.examlab.exam.entity.Quiz;
-import capstone.examlab.exam.repository.DriverQuizzesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import capstone.examlab.exams.entity.Quiz;
+import capstone.examlab.exams.repository.DriverQuizzesRepository;
+import capstone.examlab.exams.service.ExamsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +12,11 @@ import java.util.List;
 @RestController
 public class DriverQuizzesController {
     private final DriverQuizzesRepository driverQuizzesRepository;
+    private final ExamsService examservice;
 
-    @Autowired
-    public DriverQuizzesController(DriverQuizzesRepository driverQuizzesRepository) {
+    public DriverQuizzesController(DriverQuizzesRepository driverQuizzesRepository, ExamsService examservice) {
         this.driverQuizzesRepository = driverQuizzesRepository;
+        this.examservice = examservice;
     }
 
     @GetMapping("get")
@@ -26,6 +27,16 @@ public class DriverQuizzesController {
     @GetMapping("count")
     public long countAll() {
         return driverQuizzesRepository.count();
+    }
+
+    @GetMapping("123/questions")
+    public Iterable<Quiz> findByUserSearch(
+            @RequestParam(value = "tags", required = false) List<String> tags,
+            @RequestParam(value = "count", defaultValue = "20") int count,
+            @RequestParam(value = "includes", required = false) String includes
+    ) {
+        Iterable<Quiz> quizzes = examservice.findByUserSearch(tags, count, includes);
+        return quizzes;
     }
 
     @PostMapping("post")
@@ -42,7 +53,7 @@ public class DriverQuizzesController {
         throw new Exception("Id is required");
     }
 
-    @DeleteMapping("{id}")
+/*    @DeleteMapping("{id}")
     public ResponseEntity<String> delete(@PathVariable("id") int id) {
         driverQuizzesRepository.deleteById(id);
         return ResponseEntity.ok("Deleted");
@@ -52,5 +63,5 @@ public class DriverQuizzesController {
     public ResponseEntity<String> deleteAll() {
         driverQuizzesRepository.deleteAll();
         return ResponseEntity.ok("DeleteAll");
-    }
+    }*/
 }

@@ -1,11 +1,10 @@
-package capstone.examlab.exam.ConnectElasticSearch;
+package capstone.examlab.exams.ConnectElasticSearch;
 
-import capstone.examlab.exam.entity.Quiz;
-import capstone.examlab.exam.repository.DriverQuizzesRepository;
+import capstone.examlab.exams.entity.Quiz;
+import capstone.examlab.exams.repository.DriverQuizzesRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
