@@ -23,9 +23,9 @@ repositories {
 	mavenCentral()
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
-}
+//ext {
+//	set('snippetsDir', file("build/generated-snippets"))
+//}
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
@@ -38,17 +38,17 @@ dependencies {
 }
 
 tasks.named('test') {
-	outputs.dir snippetsDir
+//	outputs.dir snippetsDir
 	useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
-}
+//tasks.named('asciidoctor') {
+//	inputs.dir snippetsDir
+//	dependsOn test
+//}
 
 openapi3 {
-	server = 'http://localhost:8080'
+	setServer('http://localhost:8080')
 	title = 'My API'
 	description = 'My API description'
 	version = '0.1.0'

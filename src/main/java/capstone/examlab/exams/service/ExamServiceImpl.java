@@ -75,11 +75,11 @@ public class ExamServiceImpl implements ExamsService {
                     add(1);
                     add(3);
                 }})
-                .explanation("1번 문제 설명")
-                .explanationImageUrls(new ArrayList<String>() {{
+                .commentary("1번 문제 설명")
+                .commentaryImageUrls(new ArrayList<String>() {{
                     add("1번 문제 설명 이미지");
                 }})
-                .explanationImageDescriptions(new ArrayList<String>() {{
+                .commentaryImageDescriptions(new ArrayList<String>() {{
                     add("1번 문제 설명 이미지 설명");
                 }})
                 .tags(new ArrayList<String>() {{
@@ -107,11 +107,11 @@ public class ExamServiceImpl implements ExamsService {
                     add(2);
                     add(4);
                 }})
-                .explanation("2번 문제 설명")
-                .explanationImageUrls(new ArrayList<String>() {{
+                .commentary("2번 문제 설명")
+                .commentaryImageUrls(new ArrayList<String>() {{
                     add("2번 문제 설명 이미지");
                 }})
-                .explanationImageDescriptions(new ArrayList<String>() {{
+                .commentaryImageDescriptions(new ArrayList<String>() {{
                     add("2번 문제 설명 이미지 설명");
                 }})
                 .tags(new ArrayList<String>() {{

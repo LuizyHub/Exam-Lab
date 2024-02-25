@@ -1,0 +1,4 @@
+[source,json,options="nowrap"]
+----
+[{"title":"운전면허","sub_exams":[{"exam_id":1,"sub_title":"1종"},{"exam_id":2,"sub_title":"2종"}]},{"title":"수능","sub_exams":[{"exam_id":3,"sub_title":"수학"},{"exam_id":4,"sub_title":"영어"}]}]
+----

@@ -15,8 +15,8 @@ public class Question {
     private ArrayList<String> questionImageDescriptions;
     private ArrayList<String> options;
     private ArrayList<Integer> answers;
-    private String explanation;
-    private ArrayList<String> explanationImageUrls;
-    private ArrayList<String> explanationImageDescriptions;
+    private String commentary;
+    private ArrayList<String> commentaryImageUrls;
+    private ArrayList<String> commentaryImageDescriptions;
     private ArrayList<String> tags;
 }

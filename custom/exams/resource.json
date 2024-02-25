@@ -1,0 +1,29 @@
+{
+  "operationId" : "exams",
+  "summary" : "Get all exams",
+  "description" : "Get all exams",
+  "privateResource" : false,
+  "deprecated" : false,
+  "request" : {
+    "path" : "/api/v1/exams",
+    "method" : "GET",
+    "contentType" : null,
+    "schema" : null,
+    "headers" : [ ],
+    "pathParameters" : [ ],
+    "queryParameters" : [ ],
+    "formParameters" : [ ],
+    "requestFields" : [ ],
+    "example" : null,
+    "securityRequirements" : null
+  },
+  "response" : {
+    "status" : 200,
+    "contentType" : "application/json",
+    "schema" : null,
+    "headers" : [ ],
+    "responseFields" : [ ],
+    "example" : "[{\"title\":\"운전면허\",\"sub_exams\":[{\"exam_id\":1,\"sub_title\":\"1종\"},{\"exam_id\":2,\"sub_title\":\"2종\"}]},{\"title\":\"수능\",\"sub_exams\":[{\"exam_id\":3,\"sub_title\":\"수학\"},{\"exam_id\":4,\"sub_title\":\"영어\"}]}]"
+  },
+  "tags" : [ "exams" ]
+}

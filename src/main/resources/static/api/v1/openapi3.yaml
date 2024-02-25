@@ -1,77 +1,249 @@
-openapi: "3.0.3"
+openapi: 3.0.1
 info:
-  title: "exam_lab API"
-  description: "exam_lab API"
-  version: "1.0.0"
+  title: My API
+  description: My API description
+  version: 0.1.0
 servers:
-  - url: ""
+- url: http://localhost:8080
+tags: []
 paths:
-  /api/v1/:
-    get:
-      summary: "GET api/v1/"
-      operationId: "redirectToIndexHtml"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "string"
   /api/v1/exams:
     get:
-      summary: "GET api/v1/exams"
-      operationId: "getExams"
+      tags:
+      - exams
+      summary: Get all exams
+      description: Get all exams
+      operationId: exams
       responses:
         "200":
-          description: "OK"
+          description: "200"
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: "#/components/schemas/ExamList"
-  /api/v1/exams/{id}/type:
+                $ref: '#/components/schemas/ExamList'
+              examples:
+                exams:
+                  value: "[{\"title\":\"운전면허\",\"sub_exams\":[{\"exam_id\":1,\"sub_title\"\
+                    :\"1종\"},{\"exam_id\":2,\"sub_title\":\"2종\"}]},{\"title\":\"수\
+                    능\",\"sub_exams\":[{\"exam_id\":3,\"sub_title\":\"수학\"},{\"exam_id\"\
+                    :4,\"sub_title\":\"영어\"}]}]"
+  /api/v1/exams/{examId}/questions:
     get:
-      summary: "GET api/v1/exams/{id}/type"
-      operationId: "getExamType"
+      tags:
+      - exams
+      summary: Get exam questions
+      description: Get exam questions
+      operationId: exam-questions
       parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          schema:
-            type: "integer"
-            format: "int64"
+      - name: examId
+        in: path
+        description: Exam id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: tags
+        in: query
+        description: List of tags
+        required: false
+        schema:
+          type: string
+      - name: count
+        in: query
+        description: Number of questions
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: includes
+        in: query
+        description: List of includes
+        required: false
+        schema:
+          type: string
       responses:
         "200":
-          description: "OK"
+          description: "200"
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: "#/components/schemas/ExamType"
-  /api/v1/exams/{id}/questions:
+                $ref: '#/components/schemas/QuestionsList'
+              examples:
+                exam-questions:
+                  value: "[{\"id\":1,\"type\":\"객관식\",\"question\":\"1번 문제\",\"question_image_urls\"\
+                    :[\"1번 문제 이미지\"],\"question_image_descriptions\":[\"1번 문제 이미지\
+                    \ 설명\"],\"options\":[\"1번 답\",\"2번 답\",\"3번 답\",\"4번 답\"],\"answers\"\
+                    :[1,3],\"commentary\":\"1번 문제 설명\",\"commentary_image_urls\":[\"\
+                    1번 문제 설명 이미지\"],\"commentary_image_descriptions\":[\"1번 문제 설명\
+                    \ 이미지 설명\"],\"tags\":[\"표지\"]},{\"id\":2,\"type\":\"객관식\",\"question\"\
+                    :\"2번 문제\",\"question_image_urls\":[\"2번 문제 이미지\"],\"question_image_descriptions\"\
+                    :[\"2번 문제 이미지 설명\"],\"options\":[\"1번 답\",\"2번 답\",\"3번 답\",\"\
+                    4번 답\"],\"answers\":[2,4],\"commentary\":\"2번 문제 설명\",\"commentary_image_urls\"\
+                    :[\"2번 문제 설명 이미지\"],\"commentary_image_descriptions\":[\"2번 문제\
+                    \ 설명 이미지 설명\"],\"tags\":[\"상황\"]}]"
+  /api/v1/exams/{examId}/type:
     get:
-      summary: "GET api/v1/exams/{id}/questions"
-      operationId: "getExamQuestions"
+      tags:
+      - exams
+      summary: Get exam type
+      description: Get exam type
+      operationId: exam-type
       parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          schema:
-            type: "integer"
-            format: "int64"
+      - name: examId
+        in: path
+        description: Exam id
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         "200":
-          description: "OK"
+          description: "200"
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: "#/components/schemas/QuestionsList"
+                $ref: '#/components/schemas/ExamType'
+              examples:
+                exam-type:
+                  value: "{\"tags\":[\"상황\",\"표지\"]}"
 components:
   schemas:
-    ExamList:
-      type: "object"
-      properties: { }
-    ExamType:
-      type: "object"
-      properties: { }
     QuestionsList:
-      type: "object"
-      properties: { }
+      title: QuestionsList
+      type: array
+      description: List of questions
+      items:
+        required:
+        - answers
+        - commentary
+        - commentary_image_descriptions
+        - commentary_image_urls
+        - id
+        - options
+        - question
+        - question_image_descriptions
+        - question_image_urls
+        - tags
+        - type
+        type: object
+        properties:
+          question_image_descriptions:
+            type: array
+            description: List of question image descriptions
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          question_image_urls:
+            type: array
+            description: List of question image urls
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          question:
+            type: string
+            description: Question
+          commentary_image_descriptions:
+            type: array
+            description: List of commentary image descriptions
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          answers:
+            type: array
+            description: List of answers
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          options:
+            type: array
+            description: List of options
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          id:
+            type: number
+            description: Question id
+          type:
+            type: string
+            description: Question type
+          commentary_image_urls:
+            type: array
+            description: List of commentary image urls
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          commentary:
+            type: string
+            description: Explanation
+          tags:
+            type: array
+            description: List of tags
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+        description: List of questions
+    ExamType:
+      title: ExamType
+      required:
+      - tags
+      type: object
+      properties:
+        tags:
+          type: array
+          description: List of tags
+          items:
+            oneOf:
+            - type: object
+            - type: boolean
+            - type: string
+            - type: number
+    ExamList:
+      title: ExamList
+      type: array
+      description: List of exams
+      items:
+        required:
+        - sub_exams
+        - title
+        type: object
+        properties:
+          sub_exams:
+            type: array
+            description: List of sub exams
+            items:
+              required:
+              - exam_id
+              - sub_title
+              type: object
+              properties:
+                sub_title:
+                  type: string
+                  description: Sub exam title
+                exam_id:
+                  type: number
+                  description: Sub exam id
+          title:
+            type: string
+            description: Exam title
+        description: List of exams

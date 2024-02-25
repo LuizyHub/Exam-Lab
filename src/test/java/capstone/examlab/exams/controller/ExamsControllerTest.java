@@ -139,11 +139,11 @@ class ExamsControllerTest {
                     add(1);
                     add(3);
                 }})
-                .explanation("1번 문제 설명")
-                .explanationImageUrls(new ArrayList<String>() {{
+                .commentary("1번 문제 설명")
+                .commentaryImageUrls(new ArrayList<String>() {{
                     add("1번 문제 설명 이미지");
                 }})
-                .explanationImageDescriptions(new ArrayList<String>() {{
+                .commentaryImageDescriptions(new ArrayList<String>() {{
                     add("1번 문제 설명 이미지 설명");
                 }})
                 .tags(new ArrayList<String>() {{
@@ -171,11 +171,11 @@ class ExamsControllerTest {
                     add(2);
                     add(4);
                 }})
-                .explanation("2번 문제 설명")
-                .explanationImageUrls(new ArrayList<String>() {{
+                .commentary("2번 문제 설명")
+                .commentaryImageUrls(new ArrayList<String>() {{
                     add("2번 문제 설명 이미지");
                 }})
-                .explanationImageDescriptions(new ArrayList<String>() {{
+                .commentaryImageDescriptions(new ArrayList<String>() {{
                     add("2번 문제 설명 이미지 설명");
                 }})
                 .tags(new ArrayList<String>() {{
@@ -231,13 +231,13 @@ class ExamsControllerTest {
                 .andExpect(jsonPath("$[0].answers").isNotEmpty())
                 .andExpect(jsonPath("$[0].answers[0]").value(1))
                 .andExpect(jsonPath("$[0].answers[1]").value(3))
-                .andExpect(jsonPath("$[0].explanation").value("1번 문제 설명"))
-                .andExpect(jsonPath("$[0].explanation_image_urls").isArray())
-                .andExpect(jsonPath("$[0].explanation_image_urls").isNotEmpty())
-                .andExpect(jsonPath("$[0].explanation_image_urls[0]").value("1번 문제 설명 이미지"))
-                .andExpect(jsonPath("$[0].explanation_image_descriptions").isArray())
-                .andExpect(jsonPath("$[0].explanation_image_descriptions").isNotEmpty())
-                .andExpect(jsonPath("$[0].explanation_image_descriptions[0]").value("1번 문제 설명 이미지 설명"))
+                .andExpect(jsonPath("$[0].commentary").value("1번 문제 설명"))
+                .andExpect(jsonPath("$[0].commentary_image_urls").isArray())
+                .andExpect(jsonPath("$[0].commentary_image_urls").isNotEmpty())
+                .andExpect(jsonPath("$[0].commentary_image_urls[0]").value("1번 문제 설명 이미지"))
+                .andExpect(jsonPath("$[0].commentary_image_descriptions").isArray())
+                .andExpect(jsonPath("$[0].commentary_image_descriptions").isNotEmpty())
+                .andExpect(jsonPath("$[0].commentary_image_descriptions[0]").value("1번 문제 설명 이미지 설명"))
                 .andExpect(jsonPath("$[0].tags").isArray())
                 .andExpect(jsonPath("$[0].tags").isNotEmpty())
                 .andExpect(jsonPath("$[0].tags[0]").value("표지"))
@@ -260,13 +260,13 @@ class ExamsControllerTest {
                 .andExpect(jsonPath("$[1].answers").isNotEmpty())
                 .andExpect(jsonPath("$[1].answers[0]").value(2))
                 .andExpect(jsonPath("$[1].answers[1]").value(4))
-                .andExpect(jsonPath("$[1].explanation").value("2번 문제 설명"))
-                .andExpect(jsonPath("$[1].explanation_image_urls").isArray())
-                .andExpect(jsonPath("$[1].explanation_image_urls").isNotEmpty())
-                .andExpect(jsonPath("$[1].explanation_image_urls[0]").value("2번 문제 설명 이미지"))
-                .andExpect(jsonPath("$[1].explanation_image_descriptions").isArray())
-                .andExpect(jsonPath("$[1].explanation_image_descriptions").isNotEmpty())
-                .andExpect(jsonPath("$[1].explanation_image_descriptions[0]").value("2번 문제 설명 이미지 설명"))
+                .andExpect(jsonPath("$[1].commentary").value("2번 문제 설명"))
+                .andExpect(jsonPath("$[1].commentary_image_urls").isArray())
+                .andExpect(jsonPath("$[1].commentary_image_urls").isNotEmpty())
+                .andExpect(jsonPath("$[1].commentary_image_urls[0]").value("2번 문제 설명 이미지"))
+                .andExpect(jsonPath("$[1].commentary_image_descriptions").isArray())
+                .andExpect(jsonPath("$[1].commentary_image_descriptions").isNotEmpty())
+                .andExpect(jsonPath("$[1].commentary_image_descriptions[0]").value("2번 문제 설명 이미지 설명"))
                 .andExpect(jsonPath("$[1].tags").isArray())
                 .andExpect(jsonPath("$[1].tags").isNotEmpty())
                 .andExpect(jsonPath("$[1].tags[0]").value("상황"));
