@@ -5,10 +5,15 @@ import capstone.examlab.exams.dto.ExamList;
 import capstone.examlab.exams.dto.SubExamDetail;
 import capstone.examlab.exams.entity.ExamDetailEntity;
 import capstone.examlab.exams.entity.Quiz;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import capstone.examlab.exams.entity.SubExamDetailEntity;
 import capstone.examlab.exams.repository.DriverQuizzesRepository;
 import capstone.examlab.exams.repository.ExamDetailRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,19 +29,11 @@ public class ExamsServiceImpl implements ExamsService {
     }
 
     @Override
-    public Iterable<Quiz> findByUserSearch(
-            List<String> tags,
-            int count,
-            String includes
-    ) {
-        if (tags == null && includes == null) {
-            // tags와 includes가 모두 null이면 모든 문제를 가져옴
-            return driverQuizzesRepository.findAll();
-        } else {
-            // tags와 includes가 주어진 경우에는 쿼리 조건을 적용하여 문제를 가져옴
-            //return driverQuizzesRepository.findFirstBy(tags, count, includes);
-            return driverQuizzesRepository.findFirstBy(includes);
-        }
+    public List<Quiz> findByUserSearch(List<String> tags, int count, String includes) {
+        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Order.asc("id")));
+        //Page<Quiz> quizPage = driverQuizzesRepository.findByTagsInAndQuestionContainingOrOptionsContaining(tags, includes, includes, pageable);
+        Page<Quiz> quizPage = driverQuizzesRepository.findByQuestionContainingOrOptionsContaining(includes, includes, pageable);
+        return quizPage.getContent();
     }
 
     @Override
