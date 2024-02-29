@@ -1,5 +1,4 @@
 package capstone.examlab.exams.entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +10,8 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Document(indexName = "driver-quiz")
-public class Question {
+public class QuestionEntity {
     @Id
-    @GeneratedValue
     private String id;
     @Field(type = FieldType.Keyword)
     private String type;

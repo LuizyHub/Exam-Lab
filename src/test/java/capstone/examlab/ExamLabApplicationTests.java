@@ -1,7 +1,7 @@
 package capstone.examlab;
 
 import capstone.examlab.exams.ConnectElasticSearch.ElasticSearchClientConfig;
-import capstone.examlab.exams.entity.Question;
+import capstone.examlab.exams.entity.QuestionEntity;
 import capstone.examlab.exams.repository.DriverQuizzesRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ class ExamLabApplicationTests {
 	@Test
 	public void loadQuizData() throws IOException {
 		String jsonData = loadJsonDataFromFile("driver_test_json.json");
-		List<Question> questions = Arrays.asList(/* Parse JSON data to List<Quiz> */);
-		driverQuizzesRepository.saveAll(questions);
+		List<QuestionEntity> questionEntities = Arrays.asList(/* Parse JSON data to List<Quiz> */);
+		driverQuizzesRepository.saveAll(questionEntities);
 	}
 
 	private String loadJsonDataFromFile(String fileName) throws IOException {

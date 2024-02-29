@@ -4,7 +4,7 @@ import capstone.examlab.exams.dto.ExamDetail;
 import capstone.examlab.exams.dto.ExamList;
 import capstone.examlab.exams.dto.SubExamDetail;
 import capstone.examlab.exams.entity.ExamDetailEntity;
-import capstone.examlab.exams.entity.Question;
+import capstone.examlab.exams.entity.QuestionEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,12 +30,30 @@ public class ExamsServiceImpl implements ExamsService {
     }
 
     @Override
-    public List<Question> findByUserSearch(List<String> tags, int count, String includes) {
-        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Order.asc("id")));
-        //Page<Quiz> quizPage = driverQuizzesRepository.findByTagsInAndQuestionContainingOrOptionsContaining(tags, includes, includes, pageable);
-        Page<Question> quizPage = driverQuizzesRepository.findByQuestionContainingOrOptionsContaining(includes, includes, pageable);
+    public List<QuestionEntity> findByUserSearch(List<String> tags, int count, String includes) {
+        //정렬 또는 랜덤 적용 필요시 PageRequest.of 수정
+        Pageable pageable = PageRequest.of(0, count);
+        Page<QuestionEntity> quizPage;
+        if(tags.isEmpty()&includes.equals("")){
+            quizPage = driverQuizzesRepository.findAll(pageable);
+            System.out.println("1번 작동");
+        }
+        else if(tags.isEmpty()){
+            quizPage = driverQuizzesRepository.findByQuestionContainingOrOptionsContaining(includes, includes, pageable);
+            System.out.println("2번 작동");
+        }
+        else if(includes.equals("")) {
+            quizPage = driverQuizzesRepository.findByTagsIn(tags, pageable);
+            System.out.println("3번작동");
+        }
+        else {
+            quizPage = driverQuizzesRepository.findByTagsInAndQuestionContainingOrOptionsContaining(tags, includes, includes, pageable);
+            System.out.println("4번 작동");
+        }
+
         return quizPage.getContent();
     }
+
 
     @Override
     public ExamList getExamList() {

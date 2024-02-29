@@ -1,11 +1,15 @@
 package capstone.examlab.exams.controller;
 
-import capstone.examlab.exams.entity.Question;
+import capstone.examlab.exams.entity.QuestionEntity;
 import capstone.examlab.exams.repository.DriverQuizzesRepository;
 import capstone.examlab.exams.service.ExamsService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RequestMapping("/driver-exam/")
@@ -20,7 +24,7 @@ public class DriverQuizzesController {
     }
 
     @GetMapping("get")
-    public Iterable<Question> findAll() {
+    public Iterable<QuestionEntity> findAll() {
         return driverQuizzesRepository.findAll();
     }
 
@@ -29,33 +33,34 @@ public class DriverQuizzesController {
         return driverQuizzesRepository.count();
     }
 
-
     @GetMapping("123/questions")
-    public Iterable<Question> findByUserSearch(
+    public Iterable<QuestionEntity> findByUserSearch(
             @RequestParam(value = "tags", required = false) List<String> tags,
             @RequestParam(value = "count", defaultValue = "20") int count,
             @RequestParam(value = "includes", required = false) String includes
     ) {
-        Iterable<Question> quizzes = examservice.findByUserSearch(tags, count, includes);
-        return quizzes;
+        if (tags == null) {
+            tags = Collections.emptyList();
+        }
+
+        if (includes == null){
+            includes = "";
+        }
+
+        Iterable<QuestionEntity> questions = examservice.findByUserSearch(tags, count, includes);
+        return questions;
     }
 
 
     @PostMapping("post")
-    public ResponseEntity save(@RequestBody List<Question> questions) {
-        driverQuizzesRepository.saveAll(questions);
+    public ResponseEntity save(@RequestBody List<QuestionEntity> questionEntities) {
+        driverQuizzesRepository.saveAll(questionEntities);
         return ResponseEntity.ok("dataAddSuccess");
     }
 
     @PutMapping("update")
-    public Question update(@RequestBody Question question) throws Exception {
-            return driverQuizzesRepository.save(question);
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") int id) {
-        driverQuizzesRepository.deleteById(id);
-        return ResponseEntity.ok("Deleted");
+    public QuestionEntity update(@RequestBody QuestionEntity questionEntity) throws Exception {
+            return driverQuizzesRepository.save(questionEntity);
     }
 
     @DeleteMapping("delete")
