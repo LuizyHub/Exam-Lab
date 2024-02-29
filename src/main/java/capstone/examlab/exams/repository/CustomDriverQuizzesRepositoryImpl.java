@@ -1,15 +1,8 @@
 package capstone.examlab.exams.repository;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import capstone.examlab.exams.entity.Quiz;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public class CustomDriverQuizzesRepositoryImpl implements CustomDriverQuizzesRepository {

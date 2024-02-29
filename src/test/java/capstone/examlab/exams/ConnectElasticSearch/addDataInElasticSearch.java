@@ -1,6 +1,6 @@
 package capstone.examlab.exams.ConnectElasticSearch;
 
-import capstone.examlab.exams.entity.Quiz;
+import capstone.examlab.exams.entity.Question;
 import capstone.examlab.exams.repository.DriverQuizzesRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ public class addDataInElasticSearch {
     @Test
     public void loadQuizData() throws IOException {
         String jsonData = loadJsonDataFromFile("src/test/resources/refine_driver_test.json");
-        List<Quiz> quizzes = Arrays.asList(/* Parse JSON data to List<Quiz> */);
-        driverQuizzesRepository.saveAll(quizzes);
+        List<Question> questions = Arrays.asList(/* Parse JSON data to List<Quiz> */);
+        driverQuizzesRepository.saveAll(questions);
     }
 
     private String loadJsonDataFromFile(String fileName) throws IOException {

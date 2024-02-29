@@ -1,4 +1,5 @@
 package capstone.examlab.exams.entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,11 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Document(indexName = "driver-quiz")
-public class Quiz {
-    //id 변경 필요 uuid가 되어야함
-    //추가로 몇몇명 변경해야함
+public class Question {
     @Id
-    private int id;
+    @GeneratedValue
+    private String id;
     @Field(type = FieldType.Keyword)
     private String type;
     @Field(type = FieldType.Text)
@@ -28,11 +28,11 @@ public class Quiz {
     @Field(type = FieldType.Keyword)
     private List<Integer> answers;
     @Field(type = FieldType.Text)
-    private String explanation;
+    private String commentary;
     @Field(type = FieldType.Text)
-    private List<String> explanationImageUrls;
+    private List<String> commentaryImageUrls;
     @Field(type = FieldType.Text)
-    private List<String> explanationImageDescriptions;
+    private List<String> commentaryImageDescriptions;
     @Field(type = FieldType.Text)
     private List<String> tags;
 }

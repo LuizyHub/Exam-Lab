@@ -4,7 +4,7 @@ import capstone.examlab.exams.dto.ExamDetail;
 import capstone.examlab.exams.dto.ExamList;
 import capstone.examlab.exams.dto.SubExamDetail;
 import capstone.examlab.exams.entity.ExamDetailEntity;
-import capstone.examlab.exams.entity.Quiz;
+import capstone.examlab.exams.entity.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,10 +29,10 @@ public class ExamsServiceImpl implements ExamsService {
     }
 
     @Override
-    public List<Quiz> findByUserSearch(List<String> tags, int count, String includes) {
+    public List<Question> findByUserSearch(List<String> tags, int count, String includes) {
         Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Order.asc("id")));
         //Page<Quiz> quizPage = driverQuizzesRepository.findByTagsInAndQuestionContainingOrOptionsContaining(tags, includes, includes, pageable);
-        Page<Quiz> quizPage = driverQuizzesRepository.findByQuestionContainingOrOptionsContaining(includes, includes, pageable);
+        Page<Question> quizPage = driverQuizzesRepository.findByQuestionContainingOrOptionsContaining(includes, includes, pageable);
         return quizPage.getContent();
     }
 
