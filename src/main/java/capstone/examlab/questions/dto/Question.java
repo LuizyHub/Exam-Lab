@@ -1,23 +1,26 @@
 package capstone.examlab.questions.dto;
 
 import capstone.examlab.questions.dto.Image;
+import co.elastic.clients.elasticsearch.cat.MlDataFrameAnalyticsRequest;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
 public class Question {
-    private Long id;
+    private String id;
     private String type;
     private String question;
-    private ArrayList<Image> questionImagesIn;
-    private ArrayList<Image> questionImagesOut;
-    private ArrayList<String> options;
-    private ArrayList<String> answers;
+    private List<Image> questionImagesIn;
+    private List<Image> questionImagesOut;
+    private List<String> options;
+    private List<Integer> answers;
     private String commentary;
-    private ArrayList<Image> commentaryImagesIn;
-    private ArrayList<Image> commentaryImagesOut;
-    private ArrayList<String> tags;
+    private List<Image> commentaryImagesIn;
+    private List<Image> commentaryImagesOut;
+    private List<String> tags;
 }
