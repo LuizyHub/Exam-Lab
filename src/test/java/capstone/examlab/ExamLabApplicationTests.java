@@ -1,8 +1,8 @@
 package capstone.examlab;
 
-import capstone.examlab.exams.ConnectElasticSearch.ElasticSearchClientConfig;
-import capstone.examlab.exams.entity.QuestionEntity;
-import capstone.examlab.exams.repository.DriverQuizzesRepository;
+import capstone.examlab.config.ElasticSearchDBConfig;
+import capstone.examlab.questions.entity.QuestionEntity;
+import capstone.examlab.questions.repository.DriverLicenseQuestionsRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,13 +19,13 @@ import java.util.List;
 @SpringBootTest
 class ExamLabApplicationTests {
 	@Autowired
-	private DriverQuizzesRepository driverQuizzesRepository;
+	private DriverLicenseQuestionsRepository driverLicenseQuestionsRepository;
 
 	@Test
 	public void loadQuizData() throws IOException {
 		String jsonData = loadJsonDataFromFile("driver_test_json.json");
 		List<QuestionEntity> questionEntities = Arrays.asList(/* Parse JSON data to List<Quiz> */);
-		driverQuizzesRepository.saveAll(questionEntities);
+		driverLicenseQuestionsRepository.saveAll(questionEntities);
 	}
 
 	private String loadJsonDataFromFile(String fileName) throws IOException {
@@ -36,8 +36,8 @@ class ExamLabApplicationTests {
 	@Configuration
 	public static class TestConfig {
 		@Bean
-		public ElasticSearchClientConfig elasticSearchClientConfig() {
-			return new ElasticSearchClientConfig();
+		public ElasticSearchDBConfig elasticSearchClientConfig() {
+			return new ElasticSearchDBConfig();
 		}
 	}
 }

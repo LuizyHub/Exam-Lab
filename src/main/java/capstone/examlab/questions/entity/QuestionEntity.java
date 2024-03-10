@@ -1,5 +1,5 @@
-package capstone.examlab.exams.entity;
-import capstone.examlab.exams.dto.Image;
+package capstone.examlab.questions.entity;
+import capstone.examlab.questions.dto.Image;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;

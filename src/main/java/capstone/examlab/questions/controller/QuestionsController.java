@@ -1,36 +1,31 @@
-package capstone.examlab.exams.controller;
+package capstone.examlab.questions.controller;
 
-import capstone.examlab.exams.entity.QuestionEntity;
-import capstone.examlab.exams.repository.DriverQuizzesRepository;
+import capstone.examlab.questions.entity.QuestionEntity;
+import capstone.examlab.questions.repository.DriverLicenseQuestionsRepository;
 import capstone.examlab.exams.service.ExamsService;
-import org.apache.coyote.Response;
+import capstone.examlab.questions.service.QuestionsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 @RequestMapping("/driver-exam/")
 @RestController
-public class DriverQuizzesController {
-    private final DriverQuizzesRepository driverQuizzesRepository;
-    private final ExamsService examservice;
-
-    public DriverQuizzesController(DriverQuizzesRepository driverQuizzesRepository, ExamsService examservice) {
-        this.driverQuizzesRepository = driverQuizzesRepository;
-        this.examservice = examservice;
-    }
+@RequiredArgsConstructor
+public class QuestionsController {
+    private final DriverLicenseQuestionsRepository driverLicenseQuestionsRepository;
+    private final QuestionsService questionsService;
 
     @GetMapping("get")
     public Iterable<QuestionEntity> findAll() {
-        return driverQuizzesRepository.findAll();
+        return driverLicenseQuestionsRepository.findAll();
     }
 
     @GetMapping("count")
     public long countAll() {
-        return driverQuizzesRepository.count();
+        return driverLicenseQuestionsRepository.count();
     }
 
     @GetMapping("123/questions")
@@ -47,25 +42,25 @@ public class DriverQuizzesController {
             includes = "";
         }
 
-        Iterable<QuestionEntity> questions = examservice.findByUserSearch(tags, count, includes);
+        Iterable<QuestionEntity> questions = questionsService.findByDriverLicenseQuestions(tags, count, includes);
         return questions;
     }
 
 
     @PostMapping("post")
     public ResponseEntity save(@RequestBody List<QuestionEntity> questionEntities) {
-        driverQuizzesRepository.saveAll(questionEntities);
+        driverLicenseQuestionsRepository.saveAll(questionEntities);
         return ResponseEntity.ok("dataAddSuccess");
     }
 
     @PutMapping("update")
     public QuestionEntity update(@RequestBody QuestionEntity questionEntity) throws Exception {
-            return driverQuizzesRepository.save(questionEntity);
+            return driverLicenseQuestionsRepository.save(questionEntity);
     }
 
     @DeleteMapping("delete")
     public ResponseEntity<String> deleteAll() {
-        driverQuizzesRepository.deleteAll();
+        driverLicenseQuestionsRepository.deleteAll();
         return ResponseEntity.ok("DeleteAll");
     }
 }

@@ -1,4 +1,4 @@
-package capstone.examlab.exams.ConnectQueryDsl;
+package capstone.examlab.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

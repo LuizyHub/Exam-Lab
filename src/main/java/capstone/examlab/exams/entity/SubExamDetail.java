@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 
 @Entity
 @Data
-public class SubExamDetailEntity {
+public class SubExamDetail {
     @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,5 +16,5 @@ public class SubExamDetailEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exam_detail_id")
-    private ExamDetailEntity examDetail;
+    private Exam examDetail;
 }

@@ -1,10 +1,10 @@
-package capstone.examlab.exams.dto;
+package capstone.examlab.questions.dto;
 
+import capstone.examlab.questions.dto.Image;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Builder

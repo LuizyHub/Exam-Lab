@@ -1,4 +1,4 @@
-package capstone.examlab.exams.ConnectElasticSearch;
+package capstone.examlab.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
 
 @Configuration
-public class ElasticSearchClientConfig extends ElasticsearchConfiguration {
+public class ElasticSearchDBConfig extends ElasticsearchConfiguration {
     @Value("${spring.elasticsearch.rest.username}")
     private String elasticsearchUsername;
 

@@ -1,8 +1,8 @@
 package capstone.examlab.exams.repository;
 
-import capstone.examlab.exams.entity.ExamDetailEntity;
+import capstone.examlab.exams.entity.Exam;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ExamDetailRepository extends JpaRepository<ExamDetailEntity, Integer> {
+public interface ExamDetailRepository extends JpaRepository<Exam, Integer> {
     
 }

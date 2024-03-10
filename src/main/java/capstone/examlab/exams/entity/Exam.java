@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class ExamDetailEntity {
+public class Exam {
     @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +20,5 @@ public class ExamDetailEntity {
     private String examTitle;
 
     @OneToMany(mappedBy = "examDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SubExamDetailEntity> subExams = new ArrayList<>();
+    private List<SubExamDetail> subExams = new ArrayList<>();
 }
