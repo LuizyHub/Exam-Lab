@@ -1,5 +1,6 @@
 package capstone.examlab.questions.service;
 
+import capstone.examlab.questions.dto.ImageSaveDto;
 import capstone.examlab.questions.dto.QuestionsList;
 import capstone.examlab.questions.dto.QuestionsOption;
 import capstone.examlab.questions.entity.QuestionEntity;
@@ -17,4 +18,7 @@ public interface QuestionsService {
 
     void deleteDriverLicenseQuestions();
 
+    List<String> saveImages(ImageSaveDto imageSaveDto);
+
+    void deleteImages();
 }

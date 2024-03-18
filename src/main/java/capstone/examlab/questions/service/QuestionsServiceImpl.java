@@ -1,6 +1,7 @@
 package capstone.examlab.questions.service;
 
 
+import capstone.examlab.questions.dto.ImageSaveDto;
 import capstone.examlab.questions.dto.Question;
 import capstone.examlab.questions.dto.QuestionsList;
 import capstone.examlab.questions.dto.QuestionsOption;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionsServiceImpl implements QuestionsService {
     private final DriverLicenseQuestionsRepository driverLicenseQuestionsRepository;
+    private final ImageService imageService;
 
     @Override
     public QuestionsList findByDriverLicenseQuestions(Long examId, QuestionsOption questionsOption) {
@@ -95,5 +97,16 @@ public class QuestionsServiceImpl implements QuestionsService {
     @Override
     public void deleteDriverLicenseQuestions() {
         driverLicenseQuestionsRepository.deleteAll();
+    }
+
+    //Image관련 Service로직은 ImageService에 위임 - 추후 문제 데이터 추가시에 내용도 추가됨에 따라 QuestionsService 로직이 담당하는 부분이 많을 것으로 예상 -> 분산필요
+    @Override
+    public List<String> saveImages(ImageSaveDto imageSaveDto){
+        return imageService.saveImagesInS3(imageSaveDto);
+    }
+
+    @Override
+    public void deleteImages(){
+        imageService.deleteImagesInFolder();
     }
 }

@@ -1,12 +1,12 @@
 package capstone.examlab.questions.dto;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @Builder
-@NoArgsConstructor
 public class Image {
     private String url;
     private String description;
