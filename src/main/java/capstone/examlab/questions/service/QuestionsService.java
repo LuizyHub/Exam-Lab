@@ -21,4 +21,6 @@ public interface QuestionsService {
     List<String> saveImages(ImageSaveDto imageSaveDto);
 
     void deleteImages();
+
+    QuestionsList testFind(Long examId, QuestionsOption questionsOption);
 }

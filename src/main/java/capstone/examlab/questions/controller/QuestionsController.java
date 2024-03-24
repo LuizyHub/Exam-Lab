@@ -24,10 +24,16 @@ public class QuestionsController {
     private final QuestionsService questionsService;
 
     //데이터 조회 API
-    @GetMapping("{examId}/questions")
+    @GetMapping("{examId}/questions/search")
     public QuestionsList getExamQuestions(@PathVariable Long examId, @RequestBody QuestionsOption questionsOption) {
         log.info("questionOptionDto = {}", questionsOption);
         return questionsService.findByDriverLicenseQuestions(examId, questionsOption);
+    }
+
+    @GetMapping("{examId}/questions/test")
+    public QuestionsList getExamQuestionsTest(@PathVariable Long examId, @RequestBody QuestionsOption questionsOption) {
+        log.info("questionOptionDto = {}", questionsOption);
+        return questionsService.testFind(examId, questionsOption);
     }
 
     //데이터 테스트용 API
@@ -41,7 +47,7 @@ public class QuestionsController {
         return questionsService.countAllByDriverLicenseQuestions();
     }
 
-    @PostMapping("{examId}/post")
+    @PostMapping("{examId}/questions/save")
     public ResponseEntity save(@PathVariable Long examId, @RequestBody List<QuestionEntity> questionEntities) {
         for (QuestionEntity questionEntity : questionEntities) {
             questionEntity.setExamId(examId);
