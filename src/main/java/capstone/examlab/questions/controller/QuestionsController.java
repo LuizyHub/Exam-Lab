@@ -25,7 +25,7 @@ public class QuestionsController {
 
     //데이터 조회 API
     @GetMapping("{examId}/questions")
-    public QuestionsList getExamQuestions(@PathVariable Long examId, @ModelAttribute QuestionsOption questionsOption) {
+    public QuestionsList getExamQuestions(@PathVariable Long examId, @RequestBody QuestionsOption questionsOption) {
         log.info("questionOptionDto = {}", questionsOption);
         return questionsService.findByDriverLicenseQuestions(examId, questionsOption);
     }
@@ -41,8 +41,11 @@ public class QuestionsController {
         return questionsService.countAllByDriverLicenseQuestions();
     }
 
-    @PostMapping("post")
-    public ResponseEntity save(@RequestBody List<QuestionEntity> questionEntities) {
+    @PostMapping("{examId}/post")
+    public ResponseEntity save(@PathVariable Long examId, @RequestBody List<QuestionEntity> questionEntities) {
+        for (QuestionEntity questionEntity : questionEntities) {
+            questionEntity.setExamId(examId);
+        }
         questionsService.saveDriverLicenseQuestions(questionEntities);
         return ResponseEntity.ok("dataAddSuccess");
     }

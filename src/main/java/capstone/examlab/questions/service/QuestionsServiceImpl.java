@@ -7,7 +7,11 @@ import capstone.examlab.questions.dto.QuestionsList;
 import capstone.examlab.questions.dto.QuestionsOption;
 import capstone.examlab.questions.entity.QuestionEntity;
 import capstone.examlab.questions.repository.DriverLicenseQuestionsRepository;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +20,38 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class QuestionsServiceImpl implements QuestionsService {
     private final DriverLicenseQuestionsRepository driverLicenseQuestionsRepository;
     private final ImageService imageService;
+
+    public Page<QuestionEntity> searchQuestionsByTagsAndKeywords(List<String> tags, String questionKeyword, String optionKeyword, Pageable pageable) {
+        Query query = createTagsAndKeywordsQuery(tags, questionKeyword, optionKeyword);
+        return driverLicenseQuestionsRepository.search(query, pageable);
+    }
+
+    private Query createTagsAndKeywordsQuery(List<String> tags, String questionKeyword, String optionKeyword) {
+        BoolQuery.Builder boolQueryBuilder = new BoolQuery.Builder();
+
+        // Add tags filter to the bool query
+        for (String tag : tags) {
+            boolQueryBuilder.must(new MatchQuery.Builder().field("tags").query(tag).build());
+        }
+
+        // Add question keyword filter
+        if (questionKeyword != null && !questionKeyword.isEmpty()) {
+            boolQueryBuilder.should(new MatchQuery.Builder().field("question").query(questionKeyword).build());
+        }
+
+        // Add option keyword filter
+        if (optionKeyword != null && !optionKeyword.isEmpty()) {
+            boolQueryBuilder.should(new MatchQuery.Builder().field("options").query(optionKeyword).build());
+        }
+
+        return boolQueryBuilder.build()._toQuery();
+    }
 
     @Override
     public QuestionsList findByDriverLicenseQuestions(Long examId, QuestionsOption questionsOption) {
@@ -33,8 +64,11 @@ public class QuestionsServiceImpl implements QuestionsService {
             questionsPage = driverLicenseQuestionsRepository.findByQuestionContainingOrOptionsContaining(questionsOption.getIncludes(), questionsOption.getIncludes(), pageable);
         }
         else if(questionsOption.getIncludes()==null) {
+            log.info("작동하고있음");
+            log.info(questionsOption.getTags().toString());
             questionsPage = driverLicenseQuestionsRepository.findByTagsIn(questionsOption.getTags(), pageable);
         }
+
         else {
             questionsPage = driverLicenseQuestionsRepository.findByTagsInAndQuestionContainingOrOptionsContaining(questionsOption.getTags(), questionsOption.getIncludes(), questionsOption.getIncludes(), pageable);
         }

@@ -10,10 +10,12 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.List;
 @NoArgsConstructor
 @Data
-@Document(indexName = "driver-question")
+@Document(indexName = "questions")
 public class QuestionEntity {
     @Id
     private String id;
+    @Field(type = FieldType.Text)
+    private Long examId;
     @Field(type = FieldType.Keyword)
     private String type;
     @Field(type = FieldType.Text)
@@ -32,6 +34,6 @@ public class QuestionEntity {
     private List<Image> commentaryImagesIn;
     @Field(type = FieldType.Object)
     private List<Image> commentaryImagesOut;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     private List<String> tags;
 }
