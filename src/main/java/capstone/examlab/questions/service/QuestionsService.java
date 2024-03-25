@@ -10,6 +10,8 @@ import java.util.List;
 public interface QuestionsService {
     QuestionsList searchFromQuestions(Long examId, QuestionsOption questionsOption);
 
+    boolean deleteQuestionsByExamId(Long examId);
+
     Long countAllQuestions();
 
     void saveQuestions(List<QuestionEntity> questionEntities);
@@ -18,6 +20,5 @@ public interface QuestionsService {
 
     List<String> saveImages(ImageSaveDto imageSaveDto);
 
-    void deleteImages();
-
+    void deleteAllImages();
 }

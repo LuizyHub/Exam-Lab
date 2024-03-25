@@ -31,6 +31,7 @@ public class QuestionsServiceImpl implements QuestionsService {
     private final BoolQueryBuilder boolQueryBuilder;
     private final ElasticsearchTemplate elasticsearchTemplate;
 
+    //Read 로직
     public QuestionsList searchFromQuestions(Long examId, QuestionsOption questionsOption) {
         Query query = boolQueryBuilder.searchQuestionsQuery(examId, questionsOption);
 
@@ -66,6 +67,17 @@ public class QuestionsServiceImpl implements QuestionsService {
         return questionsList;
     }
 
+    //Delete 로직
+    public boolean deleteQuestionsByExamId(Long examId) {
+        // 해당 examId로 문제 삭제
+        questionsRepository.deleteByExamId(examId);
+
+        List<QuestionEntity> questions = questionsRepository.findByExamId(examId);
+
+        // 삭제 후에 해당 examId로 조회된 데이터의 개수를 확인하여 반환
+        return questions.isEmpty();
+    }
+
     @Override
     public Long countAllQuestions() {
         return questionsRepository.count();
@@ -88,7 +100,7 @@ public class QuestionsServiceImpl implements QuestionsService {
     }
 
     @Override
-    public void deleteImages(){
+    public void deleteAllImages(){
         imageService.deleteImagesInFolder();
     }
 }

@@ -19,19 +19,28 @@ import java.util.List;
 public class QuestionsController {
     private final QuestionsService questionsService;
 
-    //데이터 조회 API
+    //Read 로직
     @GetMapping("{examId}/questions/search")
     public QuestionsList getExamQuestions(@PathVariable Long examId, @RequestBody QuestionsOption questionsOption) {
         log.info("questionOptionDto = {}", questionsOption);
         return questionsService.searchFromQuestions(examId, questionsOption);
     }
 
-    //데이터 테스트용 API
-    @GetMapping("count")
-    public long countAll() {
-        return questionsService.countAllQuestions();
+    //문제지 삭제 로직
+    @DeleteMapping("/deleteByExamId/{examId}")
+    public ResponseEntity<String> deleteQuestionsByExamId(@PathVariable Long examId) {
+        boolean deleted = questionsService.deleteQuestionsByExamId(examId);
+        if (deleted) {
+            return ResponseEntity.ok("questions delete success");
+        } else {
+            return ResponseEntity.badRequest().body("delete error");
+        }
     }
 
+    //문제 삭제 로직(List<Integer>)필요
+
+
+    //'기존 문제' 저장 로직
     @PostMapping("{examId}/questions/save")
     public ResponseEntity<String> save(@PathVariable Long examId, @RequestBody List<QuestionEntity> questionEntities) {
         for (QuestionEntity questionEntity : questionEntities) {
@@ -39,6 +48,12 @@ public class QuestionsController {
         }
         questionsService.saveQuestions(questionEntities);
         return ResponseEntity.ok("dataAddSuccess");
+    }
+
+    //데이터 테스트용 API
+    @GetMapping("count")
+    public long countAll() {
+        return questionsService.countAllQuestions();
     }
 
     @DeleteMapping("questions")
@@ -55,7 +70,7 @@ public class QuestionsController {
 
     @DeleteMapping("image")
     public ResponseEntity<String> deleteImages(){
-        questionsService.deleteImages();
+        questionsService.deleteAllImages();
         return ResponseEntity.ok("DeleteAll");
     }
 }
