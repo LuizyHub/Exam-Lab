@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class BoolQueryBuilder {
@@ -16,16 +17,22 @@ public class BoolQueryBuilder {
         // "must" 조건에 해당하는 Term 쿼리들 추가
         mustQueries.add(new TermQuery.Builder().field("examId").value(examId).build()._toQuery());
 
-       List<String> tags = questionsOption.getTags();
-        if (tags != null) {
-            for (String tag : tags) {
-                mustQueries.add(new TermQuery.Builder().field("tags").value(tag).build()._toQuery());
+       Map<String, List<String>> tagsMap = questionsOption.getTagsMap();
+        if (tagsMap != null) {
+            for (Map.Entry<String, List<String>> entry : tagsMap.entrySet()) {
+                String key = "tagsMap."+entry.getKey(); // 키 가져오기
+                List<String> values = entry.getValue(); // 값 리스트 가져오기
+
+                // 각 값에 대해 쿼리 생성
+                for (String value : values) {
+                    mustQueries.add(new TermQuery.Builder().field(key).value(value).build()._toQuery());
+                }
             }
         }
 
         List<String> includes = questionsOption.getIncludes();
         // question 필드에 운전면허를 포함하는 MatchPhrasePrefix 쿼리 추가
-        if(tags!=null){
+        if(includes!=null){
             for (String include : includes) {
                 mustQueries.add(new MatchPhrasePrefixQuery.Builder()
                         .field("question")

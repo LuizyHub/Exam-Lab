@@ -14,14 +14,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestionsOption {
-    private List<String> tags;
+    private  Map<String, List<String>> tagsMap;
     @Builder.Default
     private Integer count = 10;
     private List<String> includes;
-
-    public void setTags(Map<String, List<String>> tags) {
-        this.tags = tags.entrySet().stream()
-                .flatMap(entry -> entry.getValue().stream().map(value -> entry.getKey() + "-" + value))
-                .collect(Collectors.toList());
-    }
 }

@@ -8,6 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.List;
+import java.util.Map;
+
 @NoArgsConstructor
 @Data
 @Document(indexName = "questions")
@@ -34,6 +36,6 @@ public class QuestionEntity {
     private List<Image> commentaryImagesIn;
     @Field(type = FieldType.Object)
     private List<Image> commentaryImagesOut;
-    @Field(type = FieldType.Keyword)
-    private List<String> tags;
+    @Field(type = FieldType.Object)
+    private Map<String, List<String>> tagsMap;
 }

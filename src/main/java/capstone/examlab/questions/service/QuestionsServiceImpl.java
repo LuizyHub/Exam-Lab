@@ -18,6 +18,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -56,7 +57,7 @@ public class QuestionsServiceImpl implements QuestionsService {
                     .commentary(entity.getCommentary())
                     .commentaryImagesIn(new ArrayList<>(entity.getCommentaryImagesIn()))
                     .commentaryImagesOut(new ArrayList<>(entity.getCommentaryImagesOut()))
-                    .tags(new ArrayList<>(entity.getTags()))
+                    .tagsMap(new HashMap<>(entity.getTagsMap()))
                     .build();
             questionsList.add(question);
             count++;
