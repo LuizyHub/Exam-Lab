@@ -4,13 +4,11 @@ import capstone.examlab.questions.dto.ImageSaveDto;
 import capstone.examlab.questions.dto.QuestionsList;
 import capstone.examlab.questions.dto.QuestionsOption;
 import capstone.examlab.questions.entity.QuestionEntity;
-import capstone.examlab.questions.repository.DriverLicenseQuestionsRepository;
 import capstone.examlab.questions.service.QuestionsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,45 +18,33 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class QuestionsController {
-    private final DriverLicenseQuestionsRepository driverLicenseQuestionsRepository;
     private final QuestionsService questionsService;
 
     //데이터 조회 API
     @GetMapping("{examId}/questions/search")
     public QuestionsList getExamQuestions(@PathVariable Long examId, @RequestBody QuestionsOption questionsOption) {
         log.info("questionOptionDto = {}", questionsOption);
-        return questionsService.findByDriverLicenseQuestions(examId, questionsOption);
-    }
-
-    @GetMapping("{examId}/questions/test")
-    public QuestionsList getExamQuestionsTest(@PathVariable Long examId, @RequestBody QuestionsOption questionsOption) {
-        log.info("questionOptionDto = {}", questionsOption);
-        return questionsService.testFind(examId, questionsOption);
+        return questionsService.searchFromQuestions(examId, questionsOption);
     }
 
     //데이터 테스트용 API
-    @GetMapping("get")
-    public QuestionsList findAll() {
-        return questionsService.findAllByDriverLicneseQuestions();
-    }
-
     @GetMapping("count")
     public long countAll() {
-        return questionsService.countAllByDriverLicenseQuestions();
+        return questionsService.countAllQuestions();
     }
 
     @PostMapping("{examId}/questions/save")
-    public ResponseEntity save(@PathVariable Long examId, @RequestBody List<QuestionEntity> questionEntities) {
+    public ResponseEntity<String> save(@PathVariable Long examId, @RequestBody List<QuestionEntity> questionEntities) {
         for (QuestionEntity questionEntity : questionEntities) {
             questionEntity.setExamId(examId);
         }
-        questionsService.saveDriverLicenseQuestions(questionEntities);
+        questionsService.saveQuestions(questionEntities);
         return ResponseEntity.ok("dataAddSuccess");
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping("questions")
     public ResponseEntity<String> deleteAll() {
-        questionsService.deleteDriverLicenseQuestions();
+        questionsService.deleteAllQuestions();
         return ResponseEntity.ok("DeleteAll");
     }
 
@@ -68,7 +54,7 @@ public class QuestionsController {
         return questionsService.saveImages(imageSaveDto);
     }
 
-    @DeleteMapping("image/delete")
+    @DeleteMapping("image")
     public ResponseEntity<String> deleteImages(){
         questionsService.deleteImages();
         return ResponseEntity.ok("DeleteAll");

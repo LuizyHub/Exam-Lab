@@ -2,8 +2,6 @@ package capstone.examlab.questions.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder

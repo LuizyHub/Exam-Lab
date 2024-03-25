@@ -8,19 +8,16 @@ import capstone.examlab.questions.entity.QuestionEntity;
 import java.util.List;
 
 public interface QuestionsService {
-    QuestionsList findByDriverLicenseQuestions(Long examId, QuestionsOption questionsOption);
+    QuestionsList searchFromQuestions(Long examId, QuestionsOption questionsOption);
 
-    QuestionsList findAllByDriverLicneseQuestions();
+    Long countAllQuestions();
 
-    Long countAllByDriverLicenseQuestions();
+    void saveQuestions(List<QuestionEntity> questionEntities);
 
-    void saveDriverLicenseQuestions(List<QuestionEntity> questionEntities);
-
-    void deleteDriverLicenseQuestions();
+    void deleteAllQuestions();
 
     List<String> saveImages(ImageSaveDto imageSaveDto);
 
     void deleteImages();
 
-    QuestionsList testFind(Long examId, QuestionsOption questionsOption);
 }

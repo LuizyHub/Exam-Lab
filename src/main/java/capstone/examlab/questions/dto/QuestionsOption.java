@@ -17,7 +17,7 @@ public class QuestionsOption {
     private List<String> tags;
     @Builder.Default
     private Integer count = 10;
-    private String includes;
+    private List<String> includes;
 
     public void setTags(Map<String, List<String>> tags) {
         this.tags = tags.entrySet().stream()
