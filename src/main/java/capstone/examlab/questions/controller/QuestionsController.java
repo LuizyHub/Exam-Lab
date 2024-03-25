@@ -21,13 +21,13 @@ public class QuestionsController {
 
     //Read 로직
     @GetMapping("{examId}/questions/search")
-    public QuestionsList getExamQuestions(@PathVariable Long examId, @RequestBody QuestionsOption questionsOption) {
+    public QuestionsList selectQuestions(@PathVariable Long examId, @RequestBody QuestionsOption questionsOption) {
         log.info("questionOptionDto = {}", questionsOption);
         return questionsService.searchFromQuestions(examId, questionsOption);
     }
 
-    //문제지 삭제 로직
-    @DeleteMapping("/deleteByExamId/{examId}")
+    //문제지(examId) 삭제 로직
+    @DeleteMapping("{examId}/questions")
     public ResponseEntity<String> deleteQuestionsByExamId(@PathVariable Long examId) {
         boolean deleted = questionsService.deleteQuestionsByExamId(examId);
         if (deleted) {
@@ -37,8 +37,16 @@ public class QuestionsController {
         }
     }
 
-    //문제 삭제 로직(List<Integer>)필요
-
+    //문제들(List<uuid>) 삭제 로직
+    @DeleteMapping("questions/uuid")
+    public ResponseEntity<String> deleteQuestionsByUUID(@RequestBody List<String> uuidList) {
+        boolean deleted = questionsService.deleteQuestionsByUuidList(uuidList);
+        if (deleted) {
+            return ResponseEntity.ok("questions delete success");
+        } else {
+            return ResponseEntity.badRequest().body("delete error");
+        }
+    }
 
     //'기존 문제' 저장 로직
     @PostMapping("{examId}/questions/save")
@@ -51,12 +59,12 @@ public class QuestionsController {
     }
 
     //데이터 테스트용 API
-    @GetMapping("count")
+    @GetMapping("questions/count")
     public long countAll() {
         return questionsService.countAllQuestions();
     }
 
-    @DeleteMapping("questions")
+    @DeleteMapping("questions/all")
     public ResponseEntity<String> deleteAll() {
         questionsService.deleteAllQuestions();
         return ResponseEntity.ok("DeleteAll");

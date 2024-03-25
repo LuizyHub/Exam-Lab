@@ -78,6 +78,22 @@ public class QuestionsServiceImpl implements QuestionsService {
         return questions.isEmpty();
     }
 
+    public boolean deleteQuestionsByUuidList(List<String> uuidList) {
+        // 각각의 UUID에 대해 문제를 삭제
+        for (String uuid : uuidList) {
+            questionsRepository.deleteById(uuid);
+        }
+
+        // 삭제 후에 해당 UUID로 조회된 데이터의 개수를 확인하여 반환
+        for (String uuid : uuidList) {
+            if (questionsRepository.existsById(uuid)) {
+                return false; // 문제가 남아있음을 표시
+            }
+        }
+        return true;
+    }
+
+    //test로직
     @Override
     public Long countAllQuestions() {
         return questionsRepository.count();

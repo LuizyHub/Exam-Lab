@@ -12,6 +12,8 @@ public interface QuestionsService {
 
     boolean deleteQuestionsByExamId(Long examId);
 
+    boolean deleteQuestionsByUuidList(List<String> uuidList);
+
     Long countAllQuestions();
 
     void saveQuestions(List<QuestionEntity> questionEntities);
