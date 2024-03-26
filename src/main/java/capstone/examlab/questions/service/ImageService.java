@@ -1,11 +1,15 @@
 package capstone.examlab.questions.service;
 
-import capstone.examlab.questions.dto.ImageSaveDto;
+import capstone.examlab.questions.dto.ImagesSaveDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ImageService {
-    List<String> saveImagesInS3(ImageSaveDto imageSaveDto);
+
+    String saveImageInS3(MultipartFile multipartImage, int index);
+
+    List<String> saveTestImagesInS3(ImagesSaveDto imagesSaveDto);
 
     void deleteImagesInFolder();
 }

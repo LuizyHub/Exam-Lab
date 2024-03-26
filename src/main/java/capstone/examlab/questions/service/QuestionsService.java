@@ -1,14 +1,16 @@
 package capstone.examlab.questions.service;
 
-import capstone.examlab.questions.dto.ImageSaveDto;
-import capstone.examlab.questions.dto.QuestionsList;
-import capstone.examlab.questions.dto.QuestionsOption;
+import capstone.examlab.questions.dto.*;
 import capstone.examlab.questions.entity.QuestionEntity;
 
 import java.util.List;
 
 public interface QuestionsService {
-    QuestionsList searchFromQuestions(Long examId, QuestionsOption questionsOption);
+    void addQuestionsByExamId(Long examId, QuestionsUploadList questionsUploadList);
+
+    boolean addImageInQuestions(ImagesUploadInfo imagesUploadInfo);
+
+    QuestionsList searchFromQuestions(Long examId, QuestionsSearchDto questionsSearchDto);
 
     boolean deleteQuestionsByExamId(Long examId);
 
@@ -20,7 +22,7 @@ public interface QuestionsService {
 
     void deleteAllQuestions();
 
-    List<String> saveImages(ImageSaveDto imageSaveDto);
+    List<String> saveImages(ImagesSaveDto imageSaveDto);
 
     void deleteAllImages();
 }

@@ -1,8 +1,8 @@
 package capstone.examlab.questions.entity;
-import capstone.examlab.questions.dto.Image;
+import capstone.examlab.questions.dto.ImageDto;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -10,9 +10,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.List;
 import java.util.Map;
 
-@NoArgsConstructor
 @Data
-@Document(indexName = "questions")
+@Builder
+@Document(indexName = "questions-test")
 public class QuestionEntity {
     @Id
     private String id;
@@ -25,17 +25,17 @@ public class QuestionEntity {
     @Field(type = FieldType.Text)
     private List<String> options;
     @Field(type = FieldType.Object)
-    private List<Image> questionImagesIn;
+    private List<ImageDto> questionImagesIn;
     @Field(type = FieldType.Object)
-    private List<Image> questionImagesOut;
+    private List<ImageDto> questionImagesOut;
     @Field(type = FieldType.Keyword)
     private List<Integer> answers;
     @Field(type = FieldType.Text)
     private String commentary;
     @Field(type = FieldType.Object)
-    private List<Image> commentaryImagesIn;
+    private List<ImageDto> commentaryImagesIn;
     @Field(type = FieldType.Object)
-    private List<Image> commentaryImagesOut;
+    private List<ImageDto> commentaryImagesOut;
     @Field(type = FieldType.Object)
     private Map<String, List<String>> tagsMap;
 }

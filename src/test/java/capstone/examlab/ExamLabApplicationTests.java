@@ -2,7 +2,7 @@ package capstone.examlab;
 
 import capstone.examlab.config.ElasticSearchDBConfig;
 import capstone.examlab.questions.entity.QuestionEntity;
-import capstone.examlab.questions.repository.DriverLicenseQuestionsRepository;
+import capstone.examlab.questions.repository.QuestionsRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,13 +19,13 @@ import java.util.List;
 @SpringBootTest
 class ExamLabApplicationTests {
 	@Autowired
-	private DriverLicenseQuestionsRepository driverLicenseQuestionsRepository;
+	private QuestionsRepository questionsRepository;
 
 	@Test
 	public void loadQuizData() throws IOException {
 		String jsonData = loadJsonDataFromFile("driver_test_json.json");
 		List<QuestionEntity> questionEntities = Arrays.asList(/* Parse JSON data to List<Quiz> */);
-		driverLicenseQuestionsRepository.saveAll(questionEntities);
+		questionsRepository.saveAll(questionEntities);
 	}
 
 	private String loadJsonDataFromFile(String fileName) throws IOException {
