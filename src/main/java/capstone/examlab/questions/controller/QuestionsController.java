@@ -19,8 +19,8 @@ public class QuestionsController {
     //Create API, '신규 문제' 저장 API
     //Json형태의 텍스트 데이터 받기
     @PostMapping("{examId}/questions")
-    public ResponseEntity<String> addQuestionsByExamId(@PathVariable Long examId, @RequestBody QuestionsUploadList questionsUploadList) {
-        questionsService.addQuestionsByExamId(examId, questionsUploadList);
+    public ResponseEntity<String> addQuestionsByExamId(@PathVariable Long examId, @RequestBody QuestionsUploadDto questionsUploadDto) {
+        questionsService.addQuestionsByExamId(examId, questionsUploadDto);
         return ResponseEntity.ok("data add success");
     }
 
@@ -41,6 +41,17 @@ public class QuestionsController {
     public QuestionsList selectQuestions(@PathVariable Long examId, @RequestBody QuestionsSearchDto questionsSearchDto) {
         log.info("questionOptionDto = {}", questionsSearchDto);
         return questionsService.searchFromQuestions(examId, questionsSearchDto);
+    }
+
+    //Update API
+    @PostMapping("/questions/update")
+    public ResponseEntity<String> updateQuestions(@RequestBody QuestionsUpdateDto questionsUpdateDto){
+        boolean updated = questionsService.updateQuestionsByUUID(questionsUpdateDto);
+        if(updated){
+            return ResponseEntity.ok("data update success");
+        }else{
+            return ResponseEntity.badRequest().body("data update error");
+        }
     }
 
     //Delete API

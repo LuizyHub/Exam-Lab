@@ -26,11 +26,12 @@ public class QuestionsServiceImpl implements QuestionsService {
     private final BoolQueryBuilder boolQueryBuilder;
     private final ElasticsearchTemplate elasticsearchTemplate;
 
+    //Create 로직
     @Override
-    public void addQuestionsByExamId(Long examId, QuestionsUploadList questionsUploadList) {
+    public void addQuestionsByExamId(Long examId, QuestionsUploadDto questionsUploadDto) {
         List<QuestionEntity> questionEntities = new ArrayList<>();
-        if(questionsUploadList != null) {
-            for (QuestionUpload question  : questionsUploadList) {
+        if(questionsUploadDto != null) {
+            for (QuestionUpload question  : questionsUploadDto) {
                 QuestionEntity questionEntity = QuestionEntity.builder()
                         .id(question.getUuid())
                         .examId(examId)
@@ -57,8 +58,8 @@ public class QuestionsServiceImpl implements QuestionsService {
         int size = imagesUploadInfo.getImageFiles().size();
         int uuidSize = imagesUploadInfo.getQuestionsUuid().size();
         int descriptionSize = imagesUploadInfo.getDescriptions().size();
-        int attributesize = imagesUploadInfo.getDescriptions().size();
-        int imageTypesize = imagesUploadInfo.getImagesType().size();
+        int attributeSize = imagesUploadInfo.getAttributes().size();
+        int imageTypeSize = imagesUploadInfo.getImagesType().size();
         if(size == 0) return false;
 
         String beforeUuid = "";
@@ -68,16 +69,21 @@ public class QuestionsServiceImpl implements QuestionsService {
         int commentaryImagesOutCount = 0;
 
         for (int i = 0; i < size; i++) {
-            //이미지 넣는 로직, str반환
+            //이미지 넣는 로직
             MultipartFile imageFile = imagesUploadInfo.getImageFiles().get(i);
             String uuid = "";
             if(uuidSize>i) uuid = imagesUploadInfo.getQuestionsUuid().get(i);
             String imageDescription = "";
-            if(descriptionSize>i) imageDescription = imagesUploadInfo.getQuestionsUuid().get(i);
+            if(descriptionSize>i) imageDescription = imagesUploadInfo.getDescriptions().get(i);
             String imageAttribute = "";
-            if(attributesize>i) imageAttribute = imagesUploadInfo.getQuestionsUuid().get(i);
+            if(attributeSize>i) imageAttribute = imagesUploadInfo.getAttributes().get(i);
             String imageType = "";
-            if(imageTypesize>i) imageType = imagesUploadInfo.getQuestionsUuid().get(i);
+            if(imageTypeSize>i) imageType = String.valueOf(imagesUploadInfo.getImagesType().get(i));
+
+            log.info("uuid: "+uuid);
+            log.info("description: "+imageDescription);
+            log.info("attribute: "+imageAttribute);
+            log.info("imageType: "+imageType);
             if(!beforeUuid.equals(uuid)){
                 beforeUuid = uuid;
                 questionImagesInCount = 0;
@@ -89,17 +95,16 @@ public class QuestionsServiceImpl implements QuestionsService {
             Optional<QuestionEntity> optionalQuestion = questionsRepository.findById(uuid);
             String imageUrl ="";
             ImageDto imageDto;
-            log.info("작동: "+imageType);
             switch (imageType) {
                 case "questionImagesIn":
                     questionImagesInCount++;
                     imageUrl = imageService.saveImageInS3(imageFile, questionImagesInCount);
+                    log.info("imageUrl: "+imageUrl);
                     imageDto = ImageDto.builder()
                             .url(imageUrl)
                             .description(imageDescription)
                             .attribute(imageAttribute)
                             .build();
-                    log.info(imageDto.toString());
                     optionalQuestion.ifPresent(question -> {
                         question.getQuestionImagesIn().add(imageDto);
                         questionsRepository.save(question); // 수정된 질문 저장
@@ -145,7 +150,7 @@ public class QuestionsServiceImpl implements QuestionsService {
                     });
                     break;
                 default:
-                    break;
+                    return false;
             }
         }
         return true;
@@ -186,6 +191,25 @@ public class QuestionsServiceImpl implements QuestionsService {
         }
 
         return questionsList;
+    }
+
+    //Update 로직
+    @Override
+    public boolean updateQuestionsByUUID(QuestionsUpdateDto questionsUpdateDto) {
+        int size = questionsUpdateDto.size();
+        if(size == 0) return false;
+        for (QuestionUpdateDto questionUpdateDto : questionsUpdateDto) {
+            Optional<QuestionEntity> optionalQuestion = questionsRepository.findById(questionUpdateDto.getId());
+            optionalQuestion.ifPresent(question -> {
+                question.setQuestion(questionUpdateDto.getQuestion());
+                question.setOptions(questionUpdateDto.getOptions());
+                question.setAnswers(questionUpdateDto.getAnswers());
+                question.setCommentary(questionUpdateDto.getCommentary());
+                question.setTagsMap(questionUpdateDto.getTagsMap());
+                questionsRepository.save(question);
+            });
+        }
+        return true;
     }
 
     //Delete 로직

@@ -6,11 +6,13 @@ import capstone.examlab.questions.entity.QuestionEntity;
 import java.util.List;
 
 public interface QuestionsService {
-    void addQuestionsByExamId(Long examId, QuestionsUploadList questionsUploadList);
+    void addQuestionsByExamId(Long examId, QuestionsUploadDto questionsUploadDto);
 
     boolean addImageInQuestions(ImagesUploadInfo imagesUploadInfo);
 
     QuestionsList searchFromQuestions(Long examId, QuestionsSearchDto questionsSearchDto);
+
+    boolean updateQuestionsByUUID(QuestionsUpdateDto questionsUpdateDto);
 
     boolean deleteQuestionsByExamId(Long examId);
 
