@@ -15,7 +15,7 @@ import java.util.Map;
 // application 실행 시 한번만 동작하는 초기화 클래스
 @Component
 @RequiredArgsConstructor
-public class DatabaseInitializer implements ApplicationRunner {
+public class ExamDatabaseInitializer implements ApplicationRunner {
 
     private final ExamRepository examRepository;
     private final SubExamRepository subExamRepository;
